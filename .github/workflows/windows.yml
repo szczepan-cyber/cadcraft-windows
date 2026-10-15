@@ -15,10 +15,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: Rust toolchain
         run: rustup update stable
-      - name: Tests of the printing code
-        run: cargo test -p cadcraft-doc -p cadcraft-engine plotter printer
       - name: Build
-        run: cargo build --release -p cadcraft
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Continue"
+          cargo build --release -p cadcraft *> build.log
+          "exit=$LASTEXITCODE" | Add-Content build.log
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Tests of the printing code
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          cargo test -p cadcraft-doc -p cadcraft-engine -- plotter printer *> test.log
+          "exit=$LASTEXITCODE" | Add-Content test.log
+          if ($LASTEXITCODE -ne 0) { exit 1 }
       - name: Package
         shell: pwsh
         run: |
@@ -37,3 +48,20 @@ jobs:
         run: |
           gh release delete latest --yes --cleanup-tag 2>$null
           gh release create latest CADCraft-windows.zip --title "CADCraft for Windows (with printing)" --notes "Unzip and run cadcraft.exe." --target main
+      - name: Save logs to a branch
+        if: always()
+        shell: pwsh
+        run: |
+          $tail = { param($f) if (Test-Path $f) { Get-Content $f -Tail 400 } else { "(no $f)" } }
+          $dir = Join-Path $env:RUNNER_TEMP "logs"
+          New-Item -ItemType Directory -Force $dir | Out-Null
+          & $tail "build.log" | Set-Content (Join-Path $dir "build.log")
+          & $tail "test.log" | Set-Content (Join-Path $dir "test.log")
+          git config user.name "build-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git checkout --orphan buildlogs
+          git rm -rf . -q
+          Copy-Item "$dir\*" .
+          git add build.log test.log
+          git commit -q -m "build logs"
+          git push -f origin buildlogs
