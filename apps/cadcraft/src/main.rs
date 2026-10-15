@@ -98,7 +98,8 @@ impl eframe::App for App {
         self.persist_workspace(true);
         self.cad.shutdown_autosave();
     }
-    /// Preferences (the interface theme) survive restarts; window and egui state are not kept.
+    /// Preferences (the interface theme) and the window's size, position and maximized state
+    /// (`persist_window`) survive restarts; egui state is not kept.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         storage.set_string(cadcraft_ui_egui::options::PROFILE_KEY, self.cad.profile_json());
         storage.set_string(cadcraft_ui_egui::PREFS_KEY, self.cad.prefs_json());
@@ -272,7 +273,8 @@ fn main() -> eframe::Result {
             .with_titlebar_shown(false)
             .with_title_shown(false)
             .with_app_id(APP_ID),
-        persist_window: false,
+        // Size, position and maximized state come back at the next start.
+        persist_window: true,
         // A stencil buffer clips the contents of clipped layout viewports on the GPU.
         stencil_buffer: STENCIL_BITS,
         ..Default::default()

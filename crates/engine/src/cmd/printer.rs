@@ -159,6 +159,29 @@ pub fn print_bytes(printer: &str, bytes: &[u8], ext: &str) -> std::result::Resul
     }
 }
 
+/// Open the printer's own "Printing preferences" window (Windows: the driver's dialog; its
+/// choices become the printer's defaults, which the next print uses). Returns at once.
+pub fn open_preferences(printer: &str) -> std::result::Result<(), String> {
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        let printer = cadcraft_doc::clean_printer(printer);
+        if printer.is_empty() || printer.contains('"') {
+            return Err("the printer name is not valid".into());
+        }
+        std::process::Command::new("rundll32")
+            .raw_arg(format!("printui.dll,PrintUIEntry /e /n\"{printer}\""))
+            .spawn()
+            .map(|_| ())
+            .map_err(|e| format!("can't open the printing preferences: {e}"))
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = printer;
+        Err("printing preferences are only available on Windows".into())
+    }
+}
+
 #[cfg(target_arch = "wasm32")]
 pub fn print_bytes(_printer: &str, _bytes: &[u8], _ext: &str) -> std::result::Result<(), String> {
     Err("system printers are not available on the web".into())

@@ -594,19 +594,26 @@ fn page_rows(
 ) -> Option<(&'static str, Value)> {
     let mut change = None;
     ui.label("Printer/plotter");
-    egui::ComboBox::from_id_salt(salt.with("device")).selected_text(device_label(page)).width(190.0).show_ui(ui, |ui| {
-        if ui.selectable_label(device_label(page) == "None", "None").on_hover_text("PDF on the paper chosen below").clicked()
-            && device_label(page) != "None"
-        {
-            change = Some(("device", json!("None")));
-        }
-        for dev in choices.devices.iter() {
-            let on = dev.name.eq_ignore_ascii_case(&page.device);
-            if ui.selectable_label(on, &dev.name).on_hover_text(format!("{} ({})", dev.description, dev.output.as_str().to_uppercase())).clicked()
-                && !on
+    ui.horizontal(|ui| {
+        egui::ComboBox::from_id_salt(salt.with("device")).selected_text(device_label(page)).width(190.0).show_ui(ui, |ui| {
+            if ui.selectable_label(device_label(page) == "None", "None").on_hover_text("PDF on the paper chosen below").clicked()
+                && device_label(page) != "None"
             {
-                change = Some(("device", json!(dev.name)));
+                change = Some(("device", json!("None")));
             }
+            for dev in choices.devices.iter() {
+                let on = dev.name.eq_ignore_ascii_case(&page.device);
+                if ui.selectable_label(on, &dev.name).on_hover_text(format!("{} ({})", dev.description, dev.output.as_str().to_uppercase())).clicked()
+                    && !on
+                {
+                    change = Some(("device", json!(dev.name)));
+                }
+            }
+        });
+        // A system printer's own Printing preferences window (Windows).
+        let printer = choices.devices.iter().find(|dv| dv.name.eq_ignore_ascii_case(&page.device)).map(|dv| dv.printer.as_str()).unwrap_or("");
+        if cfg!(windows) && !printer.is_empty() && ui.button("Properties...").on_hover_text("The printer's own Printing preferences").clicked() {
+            let _ = cadcraft_engine::cmd::printer::open_preferences(printer);
         }
     });
     ui.end_row();
@@ -896,6 +903,80 @@ fn plot_params(st: &PlotState, preview_dpi: Option<f64>) -> Value {
     p
 }
 
+/// The file the Plot dialog's last settings are kept in (the CADCraft settings directory).
+#[cfg(not(target_arch = "wasm32"))]
+fn last_plot_file() -> Option<std::path::PathBuf> {
+    cadcraft_engine::cmd::plotters::settings_dir().map(|d| d.join("plot-last.json"))
+}
+
+/// Keep the Plot dialog's settings for the next start: the model-space page setup (printer,
+/// paper, orientation, area, scale, lineweights, transparency, style table) and the placement.
+/// A layout's settings belong to the layout and are not kept here. Failures are ignored.
+fn save_last_plot(st: &PlotState) {
+    #[cfg(not(target_arch = "wasm32"))]
+    if st.target == "Model"
+        && let Some(path) = last_plot_file()
+    {
+        let v = json!({ "version": 1, "page": st.page, "center": st.center, "offsetMm": st.offset_mm });
+        if let Some(dir) = path.parent() {
+            let _ = std::fs::create_dir_all(dir);
+        }
+        let tmp = path.with_extension("json.cadcraft-tmp");
+        if std::fs::write(&tmp, v.to_string()).is_ok() {
+            let _ = std::fs::rename(&tmp, &path);
+        }
+    }
+    #[cfg(target_arch = "wasm32")]
+    let _ = st;
+}
+
+/// Apply the settings `save_last_plot` kept to a new Plot dialog for model space. A printer or
+/// plotter that no longer exists falls back to None; a plot area of "window" to "extents".
+fn restore_last_plot(st: &mut PlotState) {
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        use std::io::Read;
+        if st.target != "Model" {
+            return;
+        }
+        let Some(path) = last_plot_file() else { return };
+        let Ok(file) = std::fs::File::open(path) else { return };
+        let mut bytes = Vec::new();
+        if file.take(65_537).read_to_end(&mut bytes).is_err() || bytes.len() > 65_536 {
+            return;
+        }
+        let Ok(v) = serde_json::from_slice::<Value>(&bytes) else { return };
+        if v.get("version").and_then(Value::as_u64) != Some(1) {
+            return;
+        }
+        let Some(mut page) = v.get("page").and_then(|p| serde_json::from_value::<cadcraft_doc::PageSetup>(p.clone()).ok()) else { return };
+        let known = page.device.trim().is_empty()
+            || page.device.eq_ignore_ascii_case("None")
+            || cadcraft_engine::cmd::plotters::find_device(&page.device).is_some();
+        if !known {
+            page.device = "None".into();
+        }
+        let sane = |x: f64| x.is_finite() && (1.0..=cadcraft_doc::MAX_PAPER_MM).contains(&x);
+        if !(sane(page.width_mm) && sane(page.height_mm) && page.scale.is_finite() && page.scale > 0.0) {
+            return;
+        }
+        page.plot_area = match page.plot_area.as_str() {
+            a @ ("extents" | "display" | "limits") => a.into(),
+            _ => "extents".into(),
+        };
+        st.page = page;
+        st.center = v.get("center").and_then(Value::as_bool).unwrap_or(true);
+        if let Some([x, y]) = v.get("offsetMm").and_then(|o| serde_json::from_value::<[f64; 2]>(o.clone()).ok())
+            && x.is_finite()
+            && y.is_finite()
+        {
+            st.offset_mm = [x.clamp(-100_000.0, 100_000.0), y.clamp(-100_000.0, 100_000.0)];
+        }
+    }
+    #[cfg(target_arch = "wasm32")]
+    let _ = st;
+}
+
 /// The Plot dialog: what to plot, on which paper and at what scale; OK asks where to save the PDF
 /// (where the host has a file dialog) and runs `plot` with those settings.
 fn plot(app: &mut CadApp, ctx: &egui::Context, open: &mut bool) -> Action {
@@ -915,14 +996,16 @@ fn plot(app: &mut CadApp, ctx: &egui::Context, open: &mut bool) -> Action {
         if ext.is_empty() {
             ext = cadcraft_geom::Bounds2::new(cadcraft_geom::Vec2::ZERO, cadcraft_geom::Vec2::new(12.0, 9.0));
         }
-        PlotState {
+        let mut st = PlotState {
             generation,
             page: plot_page(d, &target),
             target,
             window: [ext.min.x, ext.min.y, ext.max.x, ext.max.y],
             center: true,
             offset_mm: [0.0, 0.0],
-        }
+        };
+        restore_last_plot(&mut st);
+        st
     });
     let model = st.target == "Model";
     let choices = PageChoices::new(ctx, d);
@@ -1007,6 +1090,9 @@ fn plot(app: &mut CadApp, ctx: &egui::Context, open: &mut bool) -> Action {
     // The output file type follows the device.
     let ext = choices.devices.iter().find(|dv| dv.name.eq_ignore_ascii_case(&st.page.device)).map_or("pdf", |dv| dv.output.as_str());
     set_temp(ctx, "plot_state", st.clone());
+    if cancel || preview || ok || pick {
+        save_last_plot(&st);
+    }
     if cancel {
         *open = false;
     }

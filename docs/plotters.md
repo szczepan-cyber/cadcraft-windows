@@ -85,6 +85,16 @@ verb of the PDF viewer, so a PDF viewer must be installed). The web build has no
 printers. `exportpdf` always writes a file. `plot` with a `path` writes the file even on a device
 with a printer.
 
+Every printer the system has also appears in the Plot dialog's printer list under its own name
+(PDF output; PNG on Windows, which prints images through .NET), unless a device file has that
+name. On Windows a **Properties...** button next to the list opens the printer's own Printing
+preferences window. `CADCRAFT_NO_SYSTEM_PRINTERS=1` hides the system printers.
+
+The Plot dialog keeps its model-space settings (printer, paper, orientation, plot area,
+scale, placement, lineweights, transparency, style table) in `plot-last.json` of the settings
+directory and starts from them next time. The main window's size, position and maximized state
+are kept too.
+
 ## Commands
 
 - `plottermanager {action, …}` (also **File ▸ Plotter Manager...**) manages the devices:
