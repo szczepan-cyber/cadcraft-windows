@@ -434,7 +434,16 @@ fn sheet(d: &Drawing, space: &Space, o: &PdfOptions, links_to: &[(Handle, String
     cadcraft_render::pen::apply(&mut list, map.s * unit_mm);
     let media = sheet.size * k;
     let clip_pt = if fit || matches!(space, Space::Model) {
-        Bounds2::new(sheet.printable.min * k, sheet.printable.max * k)
+        let printable = Bounds2::new(sheet.printable.min * k, sheet.printable.max * k);
+        match window {
+            // A plotted window shows only what is inside it.
+            Some(w) => {
+                let (a, c) = (map.pt(w.min), map.pt(w.max));
+                let (lo, hi) = (a.min(c).max(printable.min), a.max(c).min(printable.max));
+                if lo.x < hi.x && lo.y < hi.y { Bounds2::new(lo, hi) } else { printable }
+            }
+            None => printable,
+        }
     } else {
         Bounds2::new(Vec2::ZERO, media)
     };

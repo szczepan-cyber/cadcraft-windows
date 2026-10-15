@@ -917,7 +917,7 @@ fn save_last_plot(st: &PlotState) {
     if st.target == "Model"
         && let Some(path) = last_plot_file()
     {
-        let v = json!({ "version": 1, "page": st.page, "center": st.center, "offsetMm": st.offset_mm });
+        let v = json!({ "version": 1, "page": st.page, "center": st.center, "offsetMm": st.offset_mm, "window": st.window });
         if let Some(dir) = path.parent() {
             let _ = std::fs::create_dir_all(dir);
         }
@@ -931,7 +931,7 @@ fn save_last_plot(st: &PlotState) {
 }
 
 /// Apply the settings `save_last_plot` kept to a new Plot dialog for model space. A printer or
-/// plotter that no longer exists falls back to None; a plot area of "window" to "extents".
+/// plotter that no longer exists is reported when plotting.
 fn restore_last_plot(st: &mut PlotState) {
     #[cfg(not(target_arch = "wasm32"))]
     {
@@ -950,22 +950,22 @@ fn restore_last_plot(st: &mut PlotState) {
             return;
         }
         let Some(mut page) = v.get("page").and_then(|p| serde_json::from_value::<cadcraft_doc::PageSetup>(p.clone()).ok()) else { return };
-        let known = page.device.trim().is_empty()
-            || page.device.eq_ignore_ascii_case("None")
-            || cadcraft_engine::cmd::plotters::find_device(&page.device).is_some();
-        if !known {
-            page.device = "None".into();
-        }
+        // The device stays as saved: system printers are found in the background after the
+        // start, so a printer can't be checked yet (a missing one is reported when plotting).
         let sane = |x: f64| x.is_finite() && (1.0..=cadcraft_doc::MAX_PAPER_MM).contains(&x);
         if !(sane(page.width_mm) && sane(page.height_mm) && page.scale.is_finite() && page.scale > 0.0) {
             return;
         }
-        page.plot_area = match page.plot_area.as_str() {
-            a @ ("extents" | "display" | "limits") => a.into(),
-            _ => "extents".into(),
-        };
+        if !matches!(page.plot_area.as_str(), "extents" | "display" | "limits" | "window") {
+            page.plot_area = "extents".into();
+        }
         st.page = page;
         st.center = v.get("center").and_then(Value::as_bool).unwrap_or(true);
+        if let Some(w) = v.get("window").and_then(|w| serde_json::from_value::<[f64; 4]>(w.clone()).ok())
+            && w.iter().all(|x| x.is_finite())
+        {
+            st.window = w;
+        }
         if let Some([x, y]) = v.get("offsetMm").and_then(|o| serde_json::from_value::<[f64; 2]>(o.clone()).ok())
             && x.is_finite()
             && y.is_finite()
@@ -1090,8 +1090,11 @@ fn plot(app: &mut CadApp, ctx: &egui::Context, open: &mut bool) -> Action {
     // The output file type follows the device.
     let ext = choices.devices.iter().find(|dv| dv.name.eq_ignore_ascii_case(&st.page.device)).map_or("pdf", |dv| dv.output.as_str());
     set_temp(ctx, "plot_state", st.clone());
-    if cancel || preview || ok || pick {
+    // Kept as soon as a setting changes (also when the dialog is closed with its X).
+    let snapshot = json!([st.page, st.center, st.offset_mm, st.window]).to_string();
+    if temp::<String>(ctx, "plot_saved").as_deref() != Some(snapshot.as_str()) {
         save_last_plot(&st);
+        set_temp(ctx, "plot_saved", snapshot);
     }
     if cancel {
         *open = false;

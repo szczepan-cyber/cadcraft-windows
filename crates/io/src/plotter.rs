@@ -103,7 +103,23 @@ fn png(d: &Drawing, space: &Space, opts: &Value) -> Result<Vec<u8>> {
     };
     let px_per_mm = if lineweights { (k / sheet.unit_mm) as f32 } else { 0.0 };
     let ro = raster::RasterOptions { background: Rgb(255, 255, 255), hairline: 1.0, px_per_mm, antialias: true };
-    raster::render_png(&list, &view, &ro).ok_or_else(|| IoError::Format("render failed".into()))
+    let mut pm = raster::render(&list, &view, &ro).ok_or_else(|| IoError::Format("render failed".into()))?;
+    // A plotted window shows only what is inside it: what lies beside it (and would spill into
+    // the margins) is painted over with the paper.
+    if let Some(w) = window.filter(|_| fit) {
+        let (ax, ay) = view.to_screen(w.min);
+        let (bx, by) = view.to_screen(w.max);
+        let (x0, x1) = (ax.min(bx).round() as i64, ax.max(bx).round() as i64);
+        let (y0, y1) = (ay.min(by).round() as i64, ay.max(by).round() as i64);
+        let (pw, ph) = (pm.width() as usize, pm.height() as usize);
+        for (i, px) in pm.data_mut().chunks_exact_mut(4).enumerate() {
+            let (x, y) = ((i % pw.max(1)) as i64, (i / pw.max(1)) as i64);
+            if i / pw.max(1) < ph && (x < x0 || x >= x1 || y < y0 || y >= y1) {
+                px.copy_from_slice(&[255, 255, 255, 255]);
+            }
+        }
+    }
+    pm.encode_png().map_err(|_| IoError::Format("render failed".into()))
 }
 
 fn svg(d: &Drawing, space: &Space, opts: &Value) -> Result<Vec<u8>> {
