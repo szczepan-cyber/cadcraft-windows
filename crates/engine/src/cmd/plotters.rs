@@ -186,10 +186,28 @@ fn user_devices() -> Vec<PlotterConfig> {
     out
 }
 
-/// Every device: the built-in ones first, then the user's.
+/// One device per system printer not already named like a built-in or user device: the
+/// built-in PDF device (PNG on Windows, which prints images) with the printer set.
+fn system_devices(taken: &[PlotterConfig]) -> Vec<PlotterConfig> {
+    let (name, output, _) = if cfg!(windows) { BUILTIN[1] } else { BUILTIN[0] };
+    super::printer::known_printers()
+        .into_iter()
+        .filter(|p| !taken.iter().any(|c| c.name.eq_ignore_ascii_case(p)))
+        .map(|p| {
+            let mut c = builtin(name, output, "System printer");
+            c.name = p.clone();
+            c.printer = p;
+            c.sanitized()
+        })
+        .collect()
+}
+
+/// Every device: the built-in ones first, then the user's, then the system printers.
 pub fn devices() -> Vec<PlotterConfig> {
     let mut v = builtins();
     v.extend(user_devices());
+    let system = system_devices(&v);
+    v.extend(system);
     v
 }
 
@@ -210,7 +228,10 @@ pub fn find_device(name: &str) -> Option<PlotterConfig> {
     }
     let st = store();
     let direct = cadcraft_doc::plotter_file_name(n).and_then(|f| PlotterConfig::from_file_text(&(st.read)(&f).ok()?).ok());
-    direct.filter(|c| c.name.eq_ignore_ascii_case(n)).or_else(|| user_devices().into_iter().find(|c| c.name.eq_ignore_ascii_case(n)))
+    direct
+        .filter(|c| c.name.eq_ignore_ascii_case(n))
+        .or_else(|| user_devices().into_iter().find(|c| c.name.eq_ignore_ascii_case(n)))
+        .or_else(|| system_devices(&[]).into_iter().find(|c| c.name.eq_ignore_ascii_case(n)))
 }
 
 /// The paper of `dev` called `name`, also by a standard size's short name (`A3`, `Letter`…).
