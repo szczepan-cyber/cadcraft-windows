@@ -1,0 +1,39 @@
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rust toolchain
+        run: rustup update stable
+      - name: Tests of the printing code
+        run: cargo test -p cadcraft-doc -p cadcraft-engine plotter printer
+      - name: Build
+        run: cargo build --release -p cadcraft
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item target/release/cadcraft.exe dist/
+          Copy-Item LICENSE-MIT, LICENSE-APACHE dist/
+          Compress-Archive -Path dist/* -DestinationPath CADCraft-windows.zip -Force
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CADCraft-windows
+          path: CADCraft-windows.zip
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete latest --yes --cleanup-tag 2>$null
+          gh release create latest CADCraft-windows.zip --title "CADCraft for Windows (with printing)" --notes "Unzip and run cadcraft.exe." --target main
