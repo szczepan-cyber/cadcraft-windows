@@ -1,0 +1,400 @@
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\pedit_splinedit.rs (target\debug\deps\pedit_splinedit-a817fae205f649bc.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests\pick_text.rs (target\debug\deps\pick_text-7faccd61e26d199f.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\pline_arc_xline_options.rs (target\debug\deps\pline_arc_xline_options-bd1108da4e781639.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests\plot_sheets.rs (target\debug\deps\plot_sheets-f3b4ea3524478f0b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\plot_styles.rs (target\debug\deps\plot_styles-76c647d828f75ff1.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\plot_transparency.rs (target\debug\deps\plot_transparency-685e7554f5c59417.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\plotters.rs (target\debug\deps\plotters-9900dbf30336de7c.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\point_modifiers.rs (target\debug\deps\point_modifiers-61ce1b34a6c80dbd.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests\post_command_passes.rs (target\debug\deps\post_command_passes-e3a3e7d561d074bd.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\prompt_keywords.rs (target\debug\deps\prompt_keywords-20421fbed095945d.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\props_bad_lineweight.rs (target\debug\deps\props_bad_lineweight-b569462aa9d9ae5a.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\props_insert_scale_attribs.rs (target\debug\deps\props_insert_scale_attribs-8b1d535520eb5c62.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\purge_mlinestyles.rs (target\debug\deps\purge_mlinestyles-3b3b43ac7339bc5f.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\purge_prompts.rs (target\debug\deps\purge_prompts-718d7ba51bc66397.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\qdim.rs (target\debug\deps\qdim-564a45371fdb86ab.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\qdim_modes.rs (target\debug\deps\qdim_modes-c9a7996bbb5e1a22.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\query_entities.rs (target\debug\deps\query_entities-ecc23e00fd14b7b6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\quickcalc.rs (target\debug\deps\quickcalc-f527ea73eb013c38.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests\recent_commands.rs (target\debug\deps\recent_commands-2de208d0410c8292.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\refedit.rs (target\debug\deps\refedit-c7f1a8980b07b84b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running tests\region.rs (target\debug\deps\region-9a6d9a8c2c47594b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests\rename_cmdline.rs (target\debug\deps\rename_cmdline-b26dfe4aa2befa29.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\rotate_reference.rs (target\debug\deps\rotate_reference-f225a7d6ae2f49bd.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\save_as_export.rs (target\debug\deps\save_as_export-2ac5a8df7b82d85f.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\save_reports_not_saved.rs (target\debug\deps\save_reports_not_saved-e8c534ab4dbc7e33.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\save_version.rs (target\debug\deps\save_version-0ed2a4eef5bcb0c8.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\select_keywords.rs (target\debug\deps\select_keywords-e2f1a895d1452eee.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests\select_similar.rs (target\debug\deps\select_similar-a036669581a02ea1.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\selection_modes.rs (target\debug\deps\selection_modes-8a52afe0a4331c3c.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\setvar_coverage.rs (target\debug\deps\setvar_coverage-97d461e78031d75e.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\snap_annotations.rs (target\debug\deps\snap_annotations-7cedfd0843049642.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\snap_blocks.rs (target\debug\deps\snap_blocks-b8f751b957c42ef4.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\snap_curves.rs (target\debug\deps\snap_curves-35f669cec18c8d78.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\snap_intersections_aperture.rs (target\debug\deps\snap_intersections_aperture-49e13ed446727372.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests\snap_nearest.rs (target\debug\deps\snap_nearest-766bfef6139f3f4c.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\snap_overrides.rs (target\debug\deps\snap_overrides-d2d12242a18a1594.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\snap_tracking.rs (target\debug\deps\snap_tracking-3418b475f0c17c0f.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running tests\snaps_more.rs (target\debug\deps\snaps_more-f7412d266c338d88.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\space_is_enter.rs (target\debug\deps\space_is_enter-c3f72904ace0a7be.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\spline_degree.rs (target\debug\deps\spline_degree-775939b67ab5d383.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\spline_options.rs (target\debug\deps\spline_options-c4c1e7ce0d29a4de.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests\stretch.rs (target\debug\deps\stretch-acadb31dacc0a7e9.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\stretch_select.rs (target\debug\deps\stretch_select-b8ecd5968c4ea949.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\table_breaks.rs (target\debug\deps\table_breaks-8a69940ea2331ec2.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\table_formulas.rs (target\debug\deps\table_formulas-c7e27e0ddd69b1f4.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests\table_styles.rs (target\debug\deps\table_styles-c5b7b229132b95be.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\temp_tracking.rs (target\debug\deps\temp_tracking-c76b999e3be23448.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests\templates.rs (target\debug\deps\templates-1e30b07f9e8e3d0c.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\text_commands.rs (target\debug\deps\text_commands-c1cc4996296f524f.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\text_left_justify.rs (target\debug\deps\text_left_justify-3192d8ff69a29034.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\tolerance.rs (target\debug\deps\tolerance-2b91c40737ea6703.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\transparent.rs (target\debug\deps\transparent-4e283a826ccccb83.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\trim_closed_polyline.rs (target\debug\deps\trim_closed_polyline-0caa1a180ac5f8db.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\trim_extend_options.rs (target\debug\deps\trim_extend_options-96ec305f23adda49.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests\undo_control.rs (target\debug\deps\undo_control-722f7d2a18bbcef0.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+     Running tests\undo_count.rs (target\debug\deps\undo_count-b57fb62ccde0bd8e.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\undo_layout_tab.rs (target\debug\deps\undo_layout_tab-dda0924d0aa1c129.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\viewport_clip.rs (target\debug\deps\viewport_clip-1ee4c377099d7b56.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests\vplayer_prompts.rs (target\debug\deps\vplayer_prompts-a66d84d5ad1becd6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\vports.rs (target\debug\deps\vports-63ddc4a32c48436d.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\wblock_base.rs (target\debug\deps\wblock_base-6ab545bac4ec07b5.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\xdata_follows_entity.rs (target\debug\deps\xdata_follows_entity-38162bb0d3cb3d70.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests\xref.rs (target\debug\deps\xref-bccf823b950adf14.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+     Running tests\zoom_keywords.rs (target\debug\deps\zoom_keywords-9b06db3f06afa114.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\zoom_viewport.rs (target\debug\deps\zoom_viewport-c8758a972c45a94d.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\zoom_window_ortho.rs (target\debug\deps\zoom_window_ortho-958c154bcfa288dc.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+exit=0
