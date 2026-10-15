@@ -60,11 +60,12 @@ jobs:
           New-Item -ItemType Directory -Force $dir | Out-Null
           & $tail "build.log" | Set-Content (Join-Path $dir "build.log")
           & $tail "test.log" | Set-Content (Join-Path $dir "test.log")
+          if (Test-Path test.log) { Select-String -Path test.log -Pattern 'printers:|windows_lists|stderr|panicked|FAILED|\.\.\. FAILED|failures' | ForEach-Object { $_.Line } | Set-Content (Join-Path $dir "summary.log") }
           git config user.name "build-bot"
           git config user.email "bot@users.noreply.github.com"
           git checkout --orphan buildlogs
           git rm -rf . -q
           Copy-Item "$dir\*" .
-          git add build.log test.log
+          git add build.log test.log summary.log
           git commit -q -m "build logs"
           git push -f origin buildlogs
